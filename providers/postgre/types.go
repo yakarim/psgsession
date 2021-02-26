@@ -3,7 +3,7 @@ package postgre
 import (
 	"time"
 
-	"github.com/yakarim/psgsession/internal/sql"
+	"github.com/yakarim/psgsession/v2/internal/sql"
 )
 
 // Config provider settings

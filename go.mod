@@ -1,4 +1,4 @@
-module github.com/yakarim/psgsession
+module github.com/yakarim/psgsession/v2
 
 go 1.15
 
