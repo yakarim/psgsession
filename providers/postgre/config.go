@@ -3,6 +3,8 @@ package postgre
 import (
 	"fmt"
 	"net/url"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -37,11 +39,20 @@ func NewConfigWith(host string, port int64, username string, password string, db
 }
 
 func (c *Config) dsn() string {
-	return fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?connect_timeout=%d&sslmode=require",
+	portln := os.Getenv("PORT")
+	var sslmode = "disable"
+	if len(portln) == 0 {
+		sslmode = "disable"
+	} else if !strings.HasPrefix(":", portln) {
+		sslmode = "require"
+	}
+	return fmt.Sprintf("postgresql://%s:%s@%s:%d/%s?connect_timeout=%d&sslmode=%s",
 		url.QueryEscape(c.Username),
 		c.Password,
 		url.QueryEscape(c.Host),
 		c.Port,
 		url.QueryEscape(c.Database),
-		int64(c.Timeout.Seconds()))
+		int64(c.Timeout.Seconds()),
+		sslmode,
+	)
 }
